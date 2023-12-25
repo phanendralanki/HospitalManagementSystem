@@ -1,19 +1,18 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Header from "./Header";
 const PatientRegistration = () => {
-
   //name,age,phoneNumber,problem,password
   const navigate = useNavigate();
-  const [name,setName] = useState("");
-  const [age,setAge] = useState("");
-  const [phoneNumber,setPhoneNumber] = useState("");
-  const [problem,setProblem] = useState("");
-  const [password,setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [problem, setProblem] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleNameChange = (e) =>{
+  const handleNameChange = (e) => {
     setName(e.target.value);
-  }
+  };
   const handleAgeChange = (e) => {
     setAge(e.target.value);
   };
@@ -36,40 +35,40 @@ const PatientRegistration = () => {
     const password = e.target.password.value;
 
     const Registration = {
-      name:name,
-      age:age,
-      phoneNumbe:phoneNumber,
-      problem:problem,
-      password:password,
+      name: name,
+      age: age,
+      phoneNumbe: phoneNumber,
+      problem: problem,
+      password: password,
     };
 
-    const response = await fetch("http://localhost:5000",{
-      method:'POST',
-      headers:{
-        "Content-type":"application/json",
+    const response = await fetch("http://localhost:5000", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
       },
-      body:JSON.stringify(Registration), 
+      body: JSON.stringify(Registration),
     });
 
-    if(response.status === 200){
+    if (response.status === 200) {
       alert("Registration Successful");
       setTimeout(() => {
         navigate("/");
       }, 2000);
-    }else if (response.status === 400) {
+    } else if (response.status === 400) {
       alert("Already registered");
     } else {
       alert("something went wrong");
     }
-  }
-  
+  };
+
   return (
     <>
-    <Header/>
-     
+      <Header />
+
       <section className="bg-gray-50 dark:bg-gray-900 mt-5">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-          <NavLink 
+          <NavLink
             to="/"
             className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
           >
@@ -85,7 +84,11 @@ const PatientRegistration = () => {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Create and account
               </h1>
-              <form className="space-y-4 md:space-y-6" action="" onSubmit={postData}>
+              <form
+                className="space-y-4 md:space-y-6"
+                action=""
+                onSubmit={postData}
+              >
                 <div>
                   <label
                     for="name"
@@ -97,8 +100,8 @@ const PatientRegistration = () => {
                     type="text"
                     name="userName"
                     id="name"
-                   value={name}
-                   onChange={handleNameChange}
+                    value={name}
+                    onChange={handleNameChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="name"
                     required=""
@@ -155,8 +158,8 @@ const PatientRegistration = () => {
                     type="text"
                     name="problem"
                     id="problem"
-                   value={problem}
-                   onChange={handleProblemChange}
+                    value={problem}
+                    onChange={handleProblemChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Health issue"
                     required=""
@@ -192,7 +195,6 @@ const PatientRegistration = () => {
                     type="password"
                     name="confirmPassword"
                     id="confirmPassword"
-                    
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required=""
@@ -225,7 +227,6 @@ const PatientRegistration = () => {
                 </div>
                 <button
                   type="submit"
-                
                   className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
                   Create an account

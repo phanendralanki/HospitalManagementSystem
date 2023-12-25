@@ -1,68 +1,53 @@
-import React,{useState} from 'react'
-import {NavLink,useNavigate} from 'react-router-dom';
-import toast, { Toaster } from "react-hot-toast";
-import Header from './Header';
+import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import Header from "./Header";
+
 const PatientLogin = () => {
-
-  const [inputValue,setInputValue] = useState({
-    userName:"",
-    password:""
-  });
-
   const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
 
-  const setValue = (e) =>{
-    // console.log(e.target.value);
-    const {name,value} =e.target;
-    setInputValue(()=>{
-      return {
-        ...inputValue,
-        [name]:value
-      }
-    })
+  const handleNameChange = (e) => {
+    setName(e.target.value);
   };
 
-  const loginPatient = async(e) =>{
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const login = async (e) => {
     e.preventDefault();
 
-    const {userName,password} = inputValue;
-    if(userName===""){
-      toast.error("user name is required",{
-        position:'top-center'
-      });
-    }else if(password === ""){
-      toast.error("Password is required",{
-        position:'top-center'
-      });
-    }else{
-      //console.log('login starts');
-      const data = await fetch("http://localhost:5000/api/user/login",{
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        }, 
-        body:JSON.stringify({
-          userName,password
-        })
-      });
+    const loginData = {
+      name,
+      password,
+    };
 
-      const result = await data.json();
-      //console.log(result);
-      if(result.status === 201){
-        navigate('/');
-        setInputValue({...inputValue,userName:"",password:""});
-      }
+    const response = await fetch("http://localhost:5000/login", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(loginData),
+    });
+
+    if (response.status === 200) {
+      alert("Login Successful");
+      setTimeout(() => {
+        navigate("/dashboard"); // Redirect to the dashboard or any other page
+      }, 2000);
+    } else if (response.status === 401) {
+      alert("Invalid credentials");
+    } else {
+      alert("Something went wrong");
     }
-
-  }
+  };
 
   return (
     <>
       <Header />
-      {/* toaster */}
-      <Toaster position="top-center" reverseOrder={false} />
-      {/* toaster */}
-      <section className="bg-gray-50 dark:bg-gray-900">
+
+      <section className="bg-gray-50 dark:bg-gray-900 mt-5">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <NavLink
             to="/"
@@ -78,30 +63,35 @@ const PatientLogin = () => {
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                Login to Your Account
+                Login to your account
               </h1>
-              <form className="space-y-4 md:space-y-6" action="#">
+              <form
+                className="space-y-4 md:space-y-6"
+                action=""
+                onSubmit={login}
+              >
                 <div>
                   <label
-                    for="name"
+                    htmlFor="name"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Your Name
+                    name
                   </label>
                   <input
                     type="text"
-                    name="userName"
-                    id="name"
-                    value={inputValue.userName}
-                    onChange={setValue}
+                    name="name"
+                    id="mobile"
+                    value={name}
+                    onChange={handleNameChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="name"
                     required=""
                   />
                 </div>
+
                 <div>
                   <label
-                    for="password"
+                    htmlFor="password"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Password
@@ -110,8 +100,8 @@ const PatientLogin = () => {
                     type="password"
                     name="password"
                     id="password"
-                    value={inputValue.password}
-                    onChange={setValue}
+                    value={password}
+                    onChange={handlePasswordChange}
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required=""
@@ -120,7 +110,6 @@ const PatientLogin = () => {
 
                 <button
                   type="submit"
-                  onClick={loginPatient}
                   className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
                   Login
@@ -141,6 +130,6 @@ const PatientLogin = () => {
       </section>
     </>
   );
-}
+};
 
-export default PatientLogin
+export default PatientLogin;
