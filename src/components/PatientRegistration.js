@@ -7,7 +7,7 @@ const PatientRegistration = () => {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [problem, setProblem] = useState("");
+  const [medical_history, setMedicalHistory] = useState("");
   const [password, setPassword] = useState("");
 
   const handleNameChange = (e) => {
@@ -20,7 +20,7 @@ const PatientRegistration = () => {
     setPhoneNumber(e.target.value);
   };
   const handleProblemChange = (e) => {
-    setProblem(e.target.value);
+    setMedicalHistory(e.target.value);
   };
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
@@ -31,14 +31,14 @@ const PatientRegistration = () => {
     const name = e.target.name.value;
     const age = e.target.age.value;
     const phoneNumber = e.target.phoneNumber.value;
-    const problem = e.target.problem.value;
+    const medical_history = e.target.medical_history.value;
     const password = e.target.password.value;
 
     const Registration = {
       name: name,
       age: age,
       phoneNumber: phoneNumber,
-      problem: problem,
+      medical_history: medical_history,
       password: password,
     };
 
@@ -149,7 +149,7 @@ const PatientRegistration = () => {
 
                 <div>
                   <label
-                    for="problem"
+                    for="medical_history"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Your Problem
@@ -158,7 +158,7 @@ const PatientRegistration = () => {
                     type="text"
                     name="problem"
                     id="problem"
-                    value={problem}
+                    value={medical_history}
                     onChange={handleProblemChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Health issue"
