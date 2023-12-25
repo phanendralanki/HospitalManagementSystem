@@ -1,77 +1,76 @@
 import React,{useState} from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
 import Header from "./Header";
 const PatientRegistration = () => {
 
+  //name,age,phoneNumber,problem,password
   const navigate = useNavigate();
-  //name, age, phn number, problem
-  
-  const [loading,setLoading] = useState(false);
+  const [name,setName] = useState("");
+  const [age,setAge] = useState("");
+  const [phoneNumber,setPhoneNumber] = useState("");
+  const [problem,setProblem] = useState("");
+  const [password,setPassword] = useState("");
 
-  const [inputValue,setInputValue] = useState({
-    userName:"",
-    age:"",
-    phoneNumber:"",
-    problem:"",
-    password:"",
-    confirmPassword:""
-  });
-
-  const setValue = (e) =>{
-      // console.log(e.target.value);
-      const {name,value} = e.target;
-
-      setInputValue(()=>{
-        return {
-          ...inputValue,
-          [name]:value
-        }
-      })
+  const handleNameChange = (e) =>{
+    setName(e.target.value);
+  }
+  const handleAgeChange = (e) => {
+    setAge(e.target.value);
+  };
+  const handlePhoneChange = (e) => {
+    setPhoneNumber(e.target.value);
+  };
+  const handleProblemChange = (e) => {
+    setProblem(e.target.value);
+  };
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
   };
 
-
-  const addUserdata = async(e) =>{
-    setLoading(true);
+  const postData = async (e) => {
     e.preventDefault();
+    const name = e.target.name.value;
+    const age = e.target.age.value;
+    const phoneNumber = e.target.phoneNumber.value;
+    const problem = e.target.problem.value;
+    const password = e.target.password.value;
 
-    const {userName,age,phoneNumber,problem,password} = inputValue;
-    //validations
+    const Registration = {
+      name:name,
+      age:age,
+      phoneNumbe:phoneNumber,
+      problem:problem,
+      password:password,
+    };
 
-    const data = await fetch("http://localhost:5000/api/user/register",{
-      method:"POST",
+    const response = await fetch("http://localhost:5000",{
+      method:'POST',
       headers:{
-        "Content-Type":"application/json"
+        "Content-type":"application/json",
       },
-      body:JSON.stringify({
-        userName,age,phoneNumber,problem,password,
-      })
+      body:JSON.stringify(Registration), 
     });
 
-    const result = await data.json();
-    //console.log(res.status);
-    if(result.status === 201){
-      setLoading(false);
-      toast.success("Registration Successful",{
-        position:"top-center"
-      });
-      setInputValue({...inputValue,userName:"",age:"",problem:"",phoneNumber:"",password:""})
-      navigate("/");
-    }else{
-      toast.error("Something went wrong");
+    if(response.status === 200){
+      alert("Registration Successful");
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    }else if (response.status === 400) {
+      alert("Already registered");
+    } else {
+      alert("something went wrong");
     }
   }
   
   return (
     <>
     <Header/>
-      {/* toaster */}
-      <Toaster position="top-center" reverseOrder={false} />
-      {/* toaster */}
+     
       <section className="bg-gray-50 dark:bg-gray-900 mt-5">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-          <a
-            href="/"
+          <NavLink 
+            to="/"
             className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
           >
             <img
@@ -80,13 +79,13 @@ const PatientRegistration = () => {
               alt="logo"
             />
             Patient Registration
-          </a>
+          </NavLink>
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Create and account
               </h1>
-              <form className="space-y-4 md:space-y-6" action="#">
+              <form className="space-y-4 md:space-y-6" action="" onSubmit={postData}>
                 <div>
                   <label
                     for="name"
@@ -98,8 +97,8 @@ const PatientRegistration = () => {
                     type="text"
                     name="userName"
                     id="name"
-                    onChange={setValue}
-                    value={inputValue.userName}
+                   value={name}
+                   onChange={handleNameChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="name"
                     required=""
@@ -118,8 +117,8 @@ const PatientRegistration = () => {
                     type="text"
                     name="age"
                     id="age"
-                    onChange={setValue}
-                    value={inputValue.age}
+                    value={age}
+                    onClick={handleAgeChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="age"
                     required=""
@@ -137,8 +136,8 @@ const PatientRegistration = () => {
                     type="text"
                     name="phoneNumber"
                     id="mobile"
-                    onChange={setValue}
-                    value={inputValue.mobileNumber}
+                    value={phoneNumber}
+                    onChange={handlePhoneChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="+91791***"
                     required=""
@@ -156,8 +155,8 @@ const PatientRegistration = () => {
                     type="text"
                     name="problem"
                     id="problem"
-                    onChange={setValue}
-                    value={inputValue.problem}
+                   value={problem}
+                   onChange={handleProblemChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Health issue"
                     required=""
@@ -175,8 +174,8 @@ const PatientRegistration = () => {
                     type="password"
                     name="password"
                     id="password"
-                    onChange={setValue}
-                    value={inputValue.password}
+                    value={password}
+                    onChange={handlePasswordChange}
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required=""
@@ -193,8 +192,7 @@ const PatientRegistration = () => {
                     type="password"
                     name="confirmPassword"
                     id="confirmPassword"
-                    onChange={setValue}
-                    value={inputValue.confirmPassword}
+                    
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required=""
@@ -227,8 +225,7 @@ const PatientRegistration = () => {
                 </div>
                 <button
                   type="submit"
-                  onClick={addUserdata}
-                  isLoading = {loading}
+                
                   className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
                   Create an account
