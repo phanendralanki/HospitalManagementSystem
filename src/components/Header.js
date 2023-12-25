@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 const Header = () => {
   return (
     <>
@@ -50,37 +51,37 @@ const Header = () => {
                 data-te-navbar-nav-ref
               >
                 <li className="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
-                  <a
+                  <NavLink
                     className="block transition duration-150 ease-in-out hover:text-neutral-700 focus:text-neutral-700 disabled:text-black/30 dark:hover:text-white dark:focus:text-white lg:p-2 [&.active]:text-black/90"
-                    href="/"
+                    to="/"
                     data-te-nav-link-ref
                     data-te-ripple-init
                     data-te-ripple-color="light"
                   >
                     Home
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
-                  <a
+                  <NavLink
                     className="block transition duration-150 ease-in-out hover:text-neutral-700 focus:text-neutral-700 disabled:text-black/30 dark:hover:text-white dark:focus:text-white lg:p-2 [&.active]:text-black/90"
-                    href="/doctorLogin"
+                    to="/doctorLogin"
                     data-te-nav-link-ref
                     data-te-ripple-init
                     data-te-ripple-color="light"
                   >
                     Doctor
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
-                  <a
+                  <NavLink
                     className="block transition duration-150 ease-in-out hover:text-neutral-700 focus:text-neutral-700 disabled:text-black/30 dark:hover:text-white dark:focus:text-white lg:p-2 [&.active]:text-black/90"
-                    href='/patientRegistration'
+                    to='/patientRegistration'
                     data-te-nav-link-ref
                     data-te-ripple-init
                     data-te-ripple-color="light"
                   >
                     Patient
-                  </a>
+                  </NavLink>
                 </li>
                 
               </ul>

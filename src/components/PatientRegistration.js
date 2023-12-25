@@ -1,12 +1,16 @@
 import React,{useState} from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import Header from "./Header";
 const PatientRegistration = () => {
+
+  const navigate = useNavigate();
   //name, age, phn number, problem
   
   const [loading,setLoading] = useState(false);
 
   const [inputValue,setInputValue] = useState({
-    name:"",
+    userName:"",
     age:"",
     phoneNumber:"",
     problem:"",
@@ -31,7 +35,7 @@ const PatientRegistration = () => {
     setLoading(true);
     e.preventDefault();
 
-    const {name,age,phoneNumber,problem,password} = inputValue;
+    const {userName,age,phoneNumber,problem,password} = inputValue;
     //validations
 
     const data = await fetch("http://localhost:5000/api/user/register",{
@@ -40,7 +44,7 @@ const PatientRegistration = () => {
         "Content-Type":"application/json"
       },
       body:JSON.stringify({
-        name,age,phoneNumber,problem,password,
+        userName,age,phoneNumber,problem,password,
       })
     });
 
@@ -51,7 +55,8 @@ const PatientRegistration = () => {
       toast.success("Registration Successful",{
         position:"top-center"
       });
-      setInputValue({...inputValue,name:"",age:"",problem:"",phoneNumber:"",password:""})
+      setInputValue({...inputValue,userName:"",age:"",problem:"",phoneNumber:"",password:""})
+      navigate("/");
     }else{
       toast.error("Something went wrong");
     }
@@ -59,10 +64,11 @@ const PatientRegistration = () => {
   
   return (
     <>
+    <Header/>
       {/* toaster */}
       <Toaster position="top-center" reverseOrder={false} />
       {/* toaster */}
-      <section className="bg-gray-50 dark:bg-gray-900">
+      <section className="bg-gray-50 dark:bg-gray-900 mt-5">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <a
             href="/"
@@ -83,17 +89,17 @@ const PatientRegistration = () => {
               <form className="space-y-4 md:space-y-6" action="#">
                 <div>
                   <label
-                    for="email"
+                    for="name"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Your Name
                   </label>
                   <input
                     type="text"
-                    name="name"
+                    name="userName"
                     id="name"
                     onChange={setValue}
-                    value={inputValue.name}
+                    value={inputValue.userName}
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="name"
                     required=""
@@ -210,12 +216,12 @@ const PatientRegistration = () => {
                       className="font-light text-gray-500 dark:text-gray-300"
                     >
                       I accept the{" "}
-                      <a
+                      <NavLink
                         className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                        href="/"
+                        to="/"
                       >
                         Terms and Conditions
-                      </a>
+                      </NavLink>
                     </label>
                   </div>
                 </div>
@@ -229,12 +235,12 @@ const PatientRegistration = () => {
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Already have an account?{" "}
-                  <a
-                    href="/patientLogin"
+                  <NavLink
+                    to="/patientLogin"
                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
                     Login here
-                  </a>
+                  </NavLink>
                 </p>
               </form>
             </div>
