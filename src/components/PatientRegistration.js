@@ -37,7 +37,7 @@ const PatientRegistration = () => {
     const Registration = {
       name: name,
       age: age,
-      phoneNumbe: phoneNumber,
+      phoneNumber: phoneNumber,
       problem: problem,
       password: password,
     };
@@ -98,7 +98,7 @@ const PatientRegistration = () => {
                   </label>
                   <input
                     type="text"
-                    name="userName"
+                    name="name"
                     id="name"
                     value={name}
                     onChange={handleNameChange}
@@ -121,7 +121,7 @@ const PatientRegistration = () => {
                     name="age"
                     id="age"
                     value={age}
-                    onClick={handleAgeChange}
+                    onChange={handleAgeChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="age"
                     required=""
